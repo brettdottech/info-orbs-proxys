@@ -14,7 +14,7 @@ docker run -d -p 8021:8080 --restart unless-stopped --name tempest-proxy tempest
 docker stop tempest-proxy
 docker rm tempest-proxy
 docker build -t tempest-proxy .
-docker run -d -p 8010:8080 --restart unless-stopped --name tempest-proxy tempest-proxy
+docker run -d -p 8021:8080 --restart unless-stopped --name tempest-proxy tempest-proxy
 
 
 # OPTIONAL: USE DOCKER VOLUMES for faster development (this will use the .py directly)

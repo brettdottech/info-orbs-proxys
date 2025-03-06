@@ -63,6 +63,12 @@ def transform_data(data: dict) -> dict:
         current_conditions = data["current_conditions"]
         filtered_data["current_conditions"]["air_temperature"] = current_conditions.get("air_temperature")
         filtered_data["current_conditions"]["icon"] = current_conditions.get("icon")
+        filtered_data["current_conditions"]["conditions"] = current_conditions.get("conditions")
+        filtered_data["current_conditions"]["feels_like"] = current_conditions.get("feels_like")
+        filtered_data["current_conditions"]["relative_humidity"] = current_conditions.get("relative_humidity")
+        filtered_data["current_conditions"]["station_pressure"] = current_conditions.get("station_pressure")
+        filtered_data["current_conditions"]["precip_probability"] = current_conditions.get("precip_probability")
+        filtered_data["current_conditions"]["wind_gust"] = current_conditions.get("wind_gust")
 
     # Filter forecast data (first 4 days)
     if "forecast" in data and "daily" in data["forecast"]:
@@ -72,7 +78,13 @@ def transform_data(data: dict) -> dict:
                 "air_temp_high": daily_forecast.get("air_temp_high"),
                 "air_temp_low": daily_forecast.get("air_temp_low"),
                 "conditions": daily_forecast.get("conditions"),
-                "icon": daily_forecast.get("icon")
+                "day_num": daily_forecast.get("day_num"),
+                "month_num": daily_forecast.get("month_num"),
+                "precip_probability": daily_forecast.get("precip_probability"),
+                "precip_type": daily_forecast.get("precip_type"),
+                "icon": daily_forecast.get("icon"),
+                "precip_icon": daily_forecast.get("precip_icon")
+
             }
             filtered_data["forecast"]["daily"].append(filtered_daily)
 
