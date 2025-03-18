@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy the script and dependencies
 COPY requirements.txt ./
-COPY tempest-proxy.py ./
+COPY orbs-proxy.py ./
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
