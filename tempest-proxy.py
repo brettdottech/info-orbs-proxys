@@ -147,3 +147,61 @@ async def proxy_request(request: Request):
 
     # Transform the data
     return transform_data(raw_data)
+
+@app.post("/proxy/tempest1")
+@app.get("/proxy/tempest1")
+@limiter.limit("5/minute")  # ⏳ Apply rate limit (5 requests per minute per IP)
+async def proxy_request1(request: Request):
+    """Secure JSON proxy with rate limiting."""
+    logger.info(
+        f"{datetime.now().isoformat()} Received {request.method} request: {request.url} from {get_remote_address(request)}"
+    )
+
+    if request.method == "GET":
+        # Extract and validate query parameters
+        station_id = request.query_params.get("station_id")
+        units_temp = request.query_params.get("units_temp")
+        units_wind = request.query_params.get("units_wind")
+        units_pressure = request.query_params.get("units_pressure")
+        units_precip = request.query_params.get("units_precip")
+        units_distance = request.query_params.get("units_distance")
+        api_key = request.query_params.get("api_key")
+
+        if not all([station_id, units_temp, units_wind, units_pressure, units_precip, units_distance, api_key]):
+            raise HTTPException(status_code=400, detail="Missing required query parameters")
+
+        request_data = WeatherRequest(
+            station_id=station_id,
+            units_temp=units_temp,
+            units_wind=units_wind,
+            units_pressure=units_pressure,
+            units_precip=units_precip,
+            units_distance=units_distance,
+            api_key=api_key,
+        )
+    elif request.method == "POST":  # POST
+        try:
+            body = await request.json()
+            request_data = WeatherRequest(**body)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail="Invalid JSON body.") from e
+    else:
+        raise HTTPException(status_code=400, detail="Unsupported request method")
+
+    # Construct API URL and query parameters
+    params = {
+        "station_id": request_data.station_id,
+        "units_temp": request_data.units_temp,
+        "units_wind": request_data.units_wind,
+        "units_pressure": request_data.units_pressure,
+        "units_precip": request_data.units_precip,
+        "units_distance": request_data.units_distance,
+        "api_key": request_data.api_key,
+    }
+
+    # Fetch the data
+    raw_data = await fetch_weather_data(WEATHER_API_BASE, params)
+
+    # Transform the data
+    return transform_data(raw_data)
+
