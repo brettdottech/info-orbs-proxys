@@ -224,7 +224,7 @@ async def proxy_request_tempest(request: Request):
     raw_data = await fetch_weather_data(WEATHER_API_BASE, params)
 
     # Transform the data
-    return transform_data(raw_data)
+    return transform_data_tempest(raw_data)
 
 @app.post("/proxy/parquet")
 @app.get("/proxy/parquet")
@@ -266,5 +266,5 @@ async def proxy_request_parquet(request: Request):
     raw_data = await fetch_parqet_data(url, payload)
 
     # logger.info(f"{datetime.now().isoformat()} Received raw data: {len(raw_data)}")
-    return transform_data(raw_data, request_data.perf, request_data.perfChart)
+    return transform_data_parquet(raw_data, request_data.perf, request_data.perfChart)
 
