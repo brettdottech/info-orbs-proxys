@@ -15,7 +15,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8080
 
 # Run the application
-CMD ["uvicorn", "tempest-proxy:app", "--host", "0.0.0.0", "--port", "8080", "--reload", "--forwarded-allow-ips=*", "--proxy-headers"]
+CMD ["uvicorn", "orbs-proxy:app", "--host", "0.0.0.0", "--port", "8080", "--reload", "--forwarded-allow-ips=*", "--proxy-headers"]
 
 # For better performance, we can use Gunicorn with multiple workers:
 # Add "gunicorn" to requirements and enable this instead of the other CMD
