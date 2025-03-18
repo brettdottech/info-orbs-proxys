@@ -2,23 +2,23 @@
 # INSTALL
 # ===========
 # Build
-docker build -t tempest-proxy .
+docker build -t orbs-proxy .
 
 # Install (daemon mode, listen at host's port 8021)
-docker run -d -p 8021:8080 --restart unless-stopped --name tempest-proxy tempest-proxy
+docker run -d -p 8021:8080 --restart unless-stopped --name orbs-proxy orbs-proxy
 
 
 # ===========
 # UPDATE
 # ===========
-docker stop tempest-proxy
-docker rm tempest-proxy
-docker build -t tempest-proxy .
-docker run -d -p 8021:8080 --restart unless-stopped --name tempest-proxy tempest-proxy
+docker stop orbs-proxy
+docker rm orbs-proxy
+docker build -t orbs-proxy .
+docker run -d -p 8021:8080 --restart unless-stopped --name orbs-proxy orbs-proxy
 
 
 # OPTIONAL: USE DOCKER VOLUMES for faster development (this will use the .py directly)
-docker run -d -p 8021:8080 --restart unless-stopped --name tempest-proxy -v "$(pwd):/app" tempest-proxy
+docker run -d -p 8021:8080 --restart unless-stopped --name orbs-proxy -v "$(pwd):/app" orbs-proxy
 
 
 
