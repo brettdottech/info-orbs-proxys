@@ -169,8 +169,8 @@ def get_perf_chart(data, perf_chart):
     return values.get(perf_chart, 0)
 
 
-@app.post("/proxy/tempest")
-@app.get("/proxy/tempest")
+@app.post("/tempest")
+@app.get("/tempest")
 @limiter.limit("5/minute")  # ⏳ Apply rate limit (5 requests per minute per IP)
 async def proxy_request_tempest(request: Request):
     """Secure JSON proxy with rate limiting."""
@@ -226,8 +226,8 @@ async def proxy_request_tempest(request: Request):
     # Transform the data
     return transform_data_tempest(raw_data)
 
-@app.post("/proxy/parquet")
-@app.get("/proxy/parquet")
+@app.post("/parquet")
+@app.get("/parquet")
 @limiter.limit("5/minute")  # ⏳ Apply rate limit (5 requests per minute per IP)
 async def proxy_request_parquet(request: Request):
     """Secure JSON proxy with rate limiting."""
